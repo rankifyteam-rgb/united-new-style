@@ -1103,23 +1103,6 @@ section {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Footer sits on a navy background; the logo's navy wordmark needs a light
-   plate behind it to stay legible, without altering the supplied logo file. */
-.footer-logo {
-  display: inline-flex;
-  align-items: center;
-  background: var(--white);
-  padding: 12px 20px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-}
-
-.footer-logo .logo-img {
-  height: 38px;
-  width: auto;
-  display: block;
-}
-
 .footer-brand p {
   margin: 18px 0 24px;
   font-size: 0.9rem;
@@ -1481,14 +1464,6 @@ section {
   .logo img,
   .logo-img {
     height: 34px;
-  }
-
-  .footer-logo {
-    padding: 10px 16px;
-  }
-
-  .footer-logo .logo-img {
-    height: 30px;
   }
 
   .hero-actions {
