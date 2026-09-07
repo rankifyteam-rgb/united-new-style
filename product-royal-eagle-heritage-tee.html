@@ -73,6 +73,9 @@
             <button type="button" class="gallery-thumb" data-image="assets/products/royal-eagle-heritage-tee-3.jpg" data-alt="Royal Eagle Heritage Premium Cotton Graphic T-Shirt — close-up of eagle and floral print detail" aria-label="Show image 3">
               <img src="assets/products/royal-eagle-heritage-tee-3.jpg" alt="">
             </button>
+            <button type="button" class="gallery-thumb" data-image="assets/products/royal-eagle-heritage-tee-4.jpg" data-alt="Royal Eagle Heritage Premium Cotton Graphic T-Shirt — sleeve and shoulder print detail" aria-label="Show image 4">
+              <img src="assets/products/royal-eagle-heritage-tee-4.jpg" alt="">
+            </button>
           </div>
         </div>
 
@@ -112,9 +115,24 @@
           </div>
 
           <div class="product-actions">
+            <button type="button" class="btn btn-gold btn-block btn-lg" id="buyNowBtn" data-product="Royal Eagle Heritage Premium Cotton Graphic T-Shirt">Buy Now</button>
             <button type="button" class="btn btn-outline-navy btn-block" id="addToCartBtn" data-product="Royal Eagle Heritage Premium Cotton Graphic T-Shirt">Add to Cart</button>
-            <button type="button" class="btn btn-gold btn-block" id="buyNowBtn" data-product="Royal Eagle Heritage Premium Cotton Graphic T-Shirt">Buy Now</button>
           </div>
+
+          <ul class="trust-strip">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.3"/><circle cx="18.5" cy="18.5" r="2.3"/></svg>
+              Free Worldwide Shipping
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+              Secure Checkout
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M1 14l5.36 5.36A9 9 0 0 0 20.49 15"/></svg>
+              Easy 30-Day Returns
+            </li>
+          </ul>
 
           <ul class="product-highlights">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> 100% Combed Cotton</li>
@@ -146,6 +164,17 @@
       </div>
     </div>
   </section>
+
+  <!-- Sticky mobile buy bar -->
+  <div class="sticky-buy-bar" aria-hidden="false">
+    <div class="container sticky-buy-bar-inner">
+      <div class="sticky-buy-info">
+        <span class="sticky-buy-name">Royal Eagle Heritage Tee</span>
+        <span class="sticky-buy-price">₹1,350.00</span>
+      </div>
+      <button type="button" class="btn btn-gold" id="stickyBuyNowBtn">Buy Now</button>
+    </div>
+  </div>
 </main>
 
 <footer class="site-footer">

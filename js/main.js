@@ -190,4 +190,13 @@
 
   handleProductAction(document.getElementById('addToCartBtn'), false);
   handleProductAction(document.getElementById('buyNowBtn'), true);
+
+  /* Sticky mobile buy bar delegates to the same validated Buy Now handler */
+  var stickyBuyBtn = document.getElementById('stickyBuyNowBtn');
+  var mainBuyBtn = document.getElementById('buyNowBtn');
+  if (stickyBuyBtn && mainBuyBtn) {
+    stickyBuyBtn.addEventListener('click', function () {
+      mainBuyBtn.click();
+    });
+  }
 })();
