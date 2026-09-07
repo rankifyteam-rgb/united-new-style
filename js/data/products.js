@@ -108,6 +108,24 @@ export const PRODUCTS = [
     image: null,
     page: null
   },
+  {
+    id: 'tee-didar-mubarak',
+    name: 'Didar Mubarak T-Shirt',
+    category: 'tshirts',
+    categoryLabel: 'T-Shirts',
+    price: 750,
+    salePrice: null,
+    badge: 'New',
+    rating: 5,
+    reviews: 0,
+    sizes: ['2-3Y', '4-5Y', '6-7Y', '8-9Y', '9-10Y', 'S', 'M', 'L', 'XL', 'XXL'],
+    sku: 'UNS-OCC-001',
+    description: 'Celebrate your special Didar function with elegance and style. This premium white Didar Mubarak T-Shirt features an elegant gold "Didar Mubarak" printed design, specially created for Didar functions, family gatherings, and memorable occasions.',
+    image: null,
+    page: 'product-didar-mubarak.html',
+    currency: '₹',
+    freeShipping: true
+  },
 
   // ---------------------------------------------------------------- Clothing
   {

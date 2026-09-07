@@ -21,12 +21,17 @@ export function initProduct(productId) {
   /* ---- Fill in data-driven fields (name/price/rating stay in sync with the catalog) ---- */
   document.querySelectorAll('[data-pdp-name]').forEach(function (el) { el.textContent = product.name; });
   document.querySelectorAll('[data-pdp-rating]').forEach(function (el) {
-    el.innerHTML = starsHTML(product.rating) + '<span class="rating-count">(' + product.reviews + ' reviews)</span>';
+    el.innerHTML = product.reviews > 0
+      ? starsHTML(product.rating) + '<span class="rating-count">(' + product.reviews + ' reviews)</span>'
+      : '<span class="rating-count">No reviews yet</span>';
   });
   document.querySelectorAll('[data-pdp-price]').forEach(function (el) {
     el.innerHTML = product.salePrice != null
-      ? '<span class="price-current sale">' + formatPrice(product.salePrice) + '</span><span class="price-old">' + formatPrice(product.price) + '</span><span class="pdp-save-badge">Save ' + Math.round((1 - product.salePrice / product.price) * 100) + '%</span>'
-      : '<span class="price-current">' + formatPrice(product.price) + '</span>';
+      ? '<span class="price-current sale">' + formatPrice(product.salePrice, product.currency) + '</span><span class="price-old">' + formatPrice(product.price, product.currency) + '</span><span class="pdp-save-badge">Save ' + Math.round((1 - product.salePrice / product.price) * 100) + '%</span>'
+      : '<span class="price-current">' + formatPrice(product.price, product.currency) + '</span>';
+  });
+  document.querySelectorAll('[data-pdp-shipping]').forEach(function (el) {
+    el.hidden = !product.freeShipping;
   });
 
   /* ---- Size selection ---- */
@@ -97,8 +102,8 @@ export function initProduct(productId) {
     if (stickyName) stickyName.textContent = product.name;
     if (stickyPrice) {
       stickyPrice.innerHTML = product.salePrice != null
-        ? '<span class="price-current sale">' + formatPrice(product.salePrice) + '</span>'
-        : '<span class="price-current">' + formatPrice(product.price) + '</span>';
+        ? '<span class="price-current sale">' + formatPrice(product.salePrice, product.currency) + '</span>'
+        : '<span class="price-current">' + formatPrice(product.price, product.currency) + '</span>';
     }
     const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {

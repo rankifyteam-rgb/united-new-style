@@ -4,7 +4,7 @@
    a client-side demo promo code, and an honest "checkout not yet connected"
    notice (no payment gateway is integrated in this initial build).
    ========================================================================== */
-import { getCart, updateQty, removeItem, getSubtotal, formatPrice } from '../cart.js';
+import { getCart, updateQty, removeItem, formatPrice, getSubtotalsByCurrency, formatSubtotalGroups } from '../cart.js';
 import { CATEGORY_ICONS } from '../render.js';
 
 const PROMO_CODES = { WELCOME10: 0.10 };
@@ -20,7 +20,7 @@ function cartRowHTML(line) {
           '<div class="cart-product-info">' +
             '<h4>' + line.name + '</h4>' +
             '<span>Size: ' + line.size + '</span><br/>' +
-            '<span>' + formatPrice(line.price) + ' each</span>' +
+            '<span>' + formatPrice(line.price, line.currency) + ' each</span>' +
             '<button type="button" class="cart-remove-btn" data-row-remove>Remove</button>' +
           '</div>' +
         '</div>' +
@@ -32,25 +32,32 @@ function cartRowHTML(line) {
           '<button type="button" data-row-increase aria-label="Increase quantity">+</button>' +
         '</div>' +
       '</td>' +
-      '<td class="cart-price-cell">' + formatPrice(line.price * line.qty) + '</td>' +
+      '<td class="cart-price-cell">' + formatPrice(line.price * line.qty, line.currency) + '</td>' +
     '</tr>'
   );
 }
 
 function renderSummary(cart) {
-  const subtotal = getSubtotal(cart);
-  const discount = appliedPromo ? subtotal * appliedPromo : 0;
-  const total = subtotal - discount;
+  const subtotalGroups = getSubtotalsByCurrency(cart);
+  const currencies = Object.keys(subtotalGroups);
+
+  const discountGroups = {};
+  const totalGroups = {};
+  currencies.forEach(function (currency) {
+    const discount = appliedPromo ? subtotalGroups[currency] * appliedPromo : 0;
+    discountGroups[currency] = discount;
+    totalGroups[currency] = subtotalGroups[currency] - discount;
+  });
 
   const subtotalEl = document.getElementById('summary-subtotal');
   const discountRow = document.getElementById('summary-discount-row');
   const discountEl = document.getElementById('summary-discount');
   const totalEl = document.getElementById('summary-total');
 
-  if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
+  if (subtotalEl) subtotalEl.textContent = formatSubtotalGroups(subtotalGroups);
   if (discountRow) discountRow.style.display = appliedPromo ? '' : 'none';
-  if (discountEl) discountEl.textContent = '-' + formatPrice(discount);
-  if (totalEl) totalEl.textContent = formatPrice(total);
+  if (discountEl) discountEl.textContent = '-' + formatSubtotalGroups(discountGroups);
+  if (totalEl) totalEl.textContent = formatSubtotalGroups(totalGroups);
 }
 
 function render() {

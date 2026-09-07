@@ -39,6 +39,7 @@ function badgeClass(badge) {
 export function productCardHTML(product) {
   const onSale = product.salePrice != null;
   const effectivePrice = onSale ? product.salePrice : product.price;
+  const currency = product.currency || '$';
   const icon = CATEGORY_ICONS[product.category] || CATEGORY_ICONS.tshirts;
   const badge = product.badge
     ? '<span class="badge ' + badgeClass(product.badge) + '">' + product.badge + '</span>'
@@ -62,12 +63,15 @@ export function productCardHTML(product) {
         '<h3>' + (product.page
           ? '<a href="' + product.page + '" class="product-title-link">' + product.name + '</a>'
           : '<button type="button" class="product-title-link" data-quickview="' + product.id + '">' + product.name + '</button>') + '</h3>' +
-        '<div class="product-rating">' + starsHTML(product.rating) + '<span class="rating-count">(' + product.reviews + ')</span></div>' +
+        '<div class="product-rating">' + (product.reviews > 0
+          ? starsHTML(product.rating) + '<span class="rating-count">(' + product.reviews + ')</span>'
+          : '<span class="rating-count">No reviews yet</span>') + '</div>' +
         '<div class="product-price">' +
           (onSale
-            ? '<span class="price-current sale">$' + product.salePrice.toFixed(2) + '</span><span class="price-old">$' + product.price.toFixed(2) + '</span>'
-            : '<span class="price-current">$' + product.price.toFixed(2) + '</span>') +
+            ? '<span class="price-current sale">' + currency + product.salePrice.toFixed(2) + '</span><span class="price-old">' + currency + product.price.toFixed(2) + '</span>'
+            : '<span class="price-current">' + currency + product.price.toFixed(2) + '</span>') +
         '</div>' +
+        (product.freeShipping ? '<span class="free-shipping-tag">Free Shipping</span>' : '') +
         '<button type="button" class="btn btn-navy btn-block add-to-cart" data-add-to-cart="' + product.id + '">Add to Bag</button>' +
       '</div>' +
     '</article>'

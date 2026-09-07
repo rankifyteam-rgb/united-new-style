@@ -6,7 +6,7 @@
    (home/collection/product/cart) lives in js/pages/*.js.
    ========================================================================== */
 
-import { getCart, getCount, getSubtotal, updateQty, removeItem, addItem, formatPrice } from './cart.js';
+import { getCart, getCount, updateQty, removeItem, addItem, formatPrice, getSubtotalsByCurrency, formatSubtotalGroups } from './cart.js';
 import { getWishlist, toggleWishlist, removeFromWishlist } from './wishlist.js';
 import { PRODUCTS, getProductById } from './data/products.js';
 import { starsHTML, CATEGORY_ICONS } from './render.js';
@@ -103,7 +103,7 @@ function cartLineRowHTML(line) {
         '</div>' +
       '</div>' +
       '<div class="drawer-line-price">' +
-        '<span>' + formatPrice(line.price * line.qty) + '</span>' +
+        '<span>' + formatPrice(line.price * line.qty, line.currency) + '</span>' +
         '<button type="button" class="drawer-line-remove" data-line-remove aria-label="Remove ' + line.name + '">Remove</button>' +
       '</div>' +
     '</div>'
@@ -126,7 +126,7 @@ function renderCartDrawer() {
   if (footer) footer.style.display = '';
   body.innerHTML = cart.map(cartLineRowHTML).join('');
   const subtotalEl = document.getElementById('cart-drawer-subtotal');
-  if (subtotalEl) subtotalEl.textContent = formatPrice(getSubtotal(cart));
+  if (subtotalEl) subtotalEl.textContent = formatSubtotalGroups(getSubtotalsByCurrency(cart));
 }
 
 function renderWishlistDrawer() {
@@ -150,7 +150,7 @@ function renderWishlistDrawer() {
         '<div class="drawer-line-thumb">' + categoryIconSvg(product.category) + '</div>' +
         '<div class="drawer-line-info">' +
           '<h4>' + product.name + '</h4>' +
-          '<span class="drawer-line-size">' + formatPrice(price) + '</span>' +
+          '<span class="drawer-line-size">' + formatPrice(price, product.currency) + '</span>' +
         '</div>' +
         '<div class="drawer-line-price">' +
           '<button type="button" class="btn btn-navy btn-sm" data-wishlist-add="' + product.id + '">Add to Bag</button>' +
@@ -289,7 +289,9 @@ function initQuickView() {
     document.getElementById('qv-category').textContent = product.categoryLabel;
     document.getElementById('qv-name').textContent = product.name;
     document.getElementById('qv-desc').textContent = product.description;
-    document.getElementById('qv-rating').innerHTML = starsHTML(product.rating) + '<span class="rating-count">(' + product.reviews + ' reviews)</span>';
+    document.getElementById('qv-rating').innerHTML = product.reviews > 0
+      ? starsHTML(product.rating) + '<span class="rating-count">(' + product.reviews + ' reviews)</span>'
+      : '<span class="rating-count">No reviews yet</span>';
 
     const badgeEl = document.getElementById('qv-badge');
     if (product.badge) {
@@ -302,8 +304,14 @@ function initQuickView() {
 
     const priceEl = document.getElementById('qv-price');
     priceEl.innerHTML = product.salePrice != null
-      ? '<span class="price-current sale">' + formatPrice(product.salePrice) + '</span><span class="price-old">' + formatPrice(product.price) + '</span>'
-      : '<span class="price-current">' + formatPrice(product.price) + '</span>';
+      ? '<span class="price-current sale">' + formatPrice(product.salePrice, product.currency) + '</span><span class="price-old">' + formatPrice(product.price, product.currency) + '</span>'
+      : '<span class="price-current">' + formatPrice(product.price, product.currency) + '</span>';
+
+    const existingShippingNote = document.getElementById('qv-shipping-note');
+    if (existingShippingNote) existingShippingNote.remove();
+    if (product.freeShipping) {
+      priceEl.insertAdjacentHTML('afterend', '<p class="free-shipping-tag free-shipping-tag-block" id="qv-shipping-note">Free Shipping</p>');
+    }
 
     const chipsEl = document.getElementById('qv-size-chips');
     chipsEl.innerHTML = product.sizes.map(function (size, i) {

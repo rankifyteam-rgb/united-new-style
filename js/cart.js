@@ -66,7 +66,9 @@ export function addItem(product, size, qty) {
       price: price,
       size: size,
       qty: qty,
-      category: product.category
+      category: product.category,
+      currency: product.currency || '$',
+      freeShipping: !!product.freeShipping
     });
   }
 
@@ -108,8 +110,28 @@ export function getSubtotal(cart) {
   return cart.reduce(function (sum, line) { return sum + line.qty * line.price; }, 0);
 }
 
-export function formatPrice(amount) {
-  return '$' + amount.toFixed(2);
+/* Groups cart totals by currency symbol, e.g. { '$': 84, '₹': 1500 }. Use
+   this (with formatSubtotalGroups) instead of getSubtotal wherever a total
+   is displayed — getSubtotal alone silently adds unlike currencies together
+   if a cart ever mixes them. */
+export function getSubtotalsByCurrency(cart) {
+  cart = cart || readCart();
+  const groups = {};
+  cart.forEach(function (line) {
+    const currency = line.currency || '$';
+    groups[currency] = (groups[currency] || 0) + line.qty * line.price;
+  });
+  return groups;
+}
+
+export function formatPrice(amount, currency) {
+  return (currency || '$') + amount.toFixed(2);
+}
+
+export function formatSubtotalGroups(groups) {
+  const currencies = Object.keys(groups);
+  if (!currencies.length) return formatPrice(0);
+  return currencies.map(function (currency) { return formatPrice(groups[currency], currency); }).join(' + ');
 }
 
 /* Broadcast current state once on load so freshly-mounted UI (header badge)

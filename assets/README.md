@@ -89,11 +89,18 @@ instead of the icon placeholder — everywhere it appears. Recommended: 3:4
 portrait, consistent white/neutral background, at least 1000px on the
 longest side.
 
-The three full product pages (`product-crew-tee.html`,
-`product-oxford-shirt.html`, `product-denim-jacket.html`) each have their own
-gallery with a main image and 4 thumbnails — replace the placeholder
-`<div class="pdp-gallery-main">` / `<button class="pdp-thumb">` blocks in
-those files with `<img>` tags pointing at your photos.
+The four full product pages (`product-crew-tee.html`,
+`product-oxford-shirt.html`, `product-denim-jacket.html`,
+`product-didar-mubarak.html`) each have their own gallery with a main image
+and 4 thumbnails — replace the placeholder `<div class="pdp-gallery-main">` /
+`<button class="pdp-thumb">` blocks in those files with `<img>` tags pointing
+at your photos.
+
+For **`product-didar-mubarak.html`** specifically, add 4 photos to
+`assets/products/didar-mubarak/`: a front flat-lay, an angled flat-lay, a
+folded shot, and a lifestyle photo — matching the 4 reference images
+supplied for this product — then wire them into the main image and the 4
+thumbnail buttons on that page the same way.
 
 The full catalog (18 sample products, names, prices, categories) is
 placeholder data for the initial build — replace it with your real product
