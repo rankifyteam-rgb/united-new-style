@@ -30,18 +30,25 @@ Add your final logo files here:
 
 **To swap the text wordmark for your logo image:**
 
-In `index.html`, find the `<a class="logo">` block inside the `<header>` and
-replace the `<span class="logo-wordmark">` markup with:
+The header and footer on every page are generated from a single file —
+`js/partials.js` — so you only need to change this in one place. Open
+`js/partials.js` and in the `headerHTML()` function replace:
 
-```html
-<img src="assets/logo/logo.png" alt="United New Style" />
+```js
+'<span class="logo-wordmark">United <span>New Style</span></span>'
 ```
 
-Do the same for the `.footer-brand` block in the footer, using
-`assets/logo/logo-white.png`.
+with:
+
+```js
+'<img src="assets/logo/logo.png" alt="United New Style" />'
+```
+
+Do the same inside `footerHTML()` using `assets/logo/logo-white.png` for the
+dark footer background.
 
 Once `assets/logo/favicon.svg` (or `.ico`) is replaced with your final
-favicon, no other changes are needed — `index.html` already links to it.
+favicon, no other changes are needed — every page already links to it.
 
 ## 2. Hero image (`assets/hero/`)
 
@@ -57,39 +64,52 @@ Add:
 - `fashion.jpg`
 
 Recommended: 1000×1300px (portrait), consistent lighting and styling across
-the three images.
+the three images. These power the category tiles on the homepage.
 
 ## 4. Product images (`assets/products/`)
 
-Add your product photography here (e.g. `product-1.jpg`, `product-2.jpg`,
-...). Recommended: square or 3:4 portrait, consistent white/neutral
-background, at least 1000px on the longest side.
+Product data lives in one place: **`js/data/products.js`**. Every product
+card, the quick-view modal, collection pages and the cart all read from this
+file, so adding real photos is a data change, not a markup change.
 
-Then, in `index.html`, inside each `.product-card` → `.product-media` div,
-add an image tag before the placeholder icon, for example:
+Add your photography here (e.g. `heritage-crew-tee.jpg`), then open
+`js/data/products.js` and set the `image` field on the matching product:
 
-```html
-<div class="product-media">
-  <img src="assets/products/product-1.jpg" alt="Signature Crew Tee" />
-  ...
-</div>
+```js
+{
+  id: 'tee-heritage-crew',
+  name: 'Heritage Crew Tee',
+  // ...
+  image: 'assets/products/heritage-crew-tee.jpg', // was: null
+}
 ```
 
-The sample products currently on the homepage (names, prices, categories)
-are placeholder catalog data — replace them with your real product
-information.
+Once `image` is set, that product's card automatically shows the photo
+instead of the icon placeholder — everywhere it appears. Recommended: 3:4
+portrait, consistent white/neutral background, at least 1000px on the
+longest side.
+
+The three full product pages (`product-crew-tee.html`,
+`product-oxford-shirt.html`, `product-denim-jacket.html`) each have their own
+gallery with a main image and 4 thumbnails — replace the placeholder
+`<div class="pdp-gallery-main">` / `<button class="pdp-thumb">` blocks in
+those files with `<img>` tags pointing at your photos.
+
+The full catalog (18 sample products, names, prices, categories) is
+placeholder data for the initial build — replace it with your real product
+information in `js/data/products.js` when ready. See the comment at the top
+of that file for the data shape.
 
 ## 5. About / brand story image (`assets/about/`)
 
 Add `brand-story.jpg` (recommended 1000×1250px, portrait). Used in the
-"About Brand" section.
+"About Brand" section on the homepage.
 
 ## Notes
 
-- All image paths above are already wired into `index.html` and
-  `css/style.css` with graceful fallbacks (navy/gold gradients or icon
-  placeholders), so the site will not show broken images while you prepare
-  final photography — it will simply look more complete once files are
-  added.
+- All image paths above are already wired into the site's CSS/JS with
+  graceful fallbacks (navy/gold gradients or icon placeholders), so nothing
+  will show as a broken image while you prepare final photography — pages
+  will simply look more complete once files are added.
 - Keep file names lowercase with hyphens, no spaces, to stay compatible
   with all hosting environments (including Hostinger).
