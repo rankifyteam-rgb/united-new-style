@@ -113,4 +113,81 @@
   /* Set current year in footer */
   var yearEl = document.getElementById('current-year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  /* ===================== Product detail page (product-*.html) ===================== */
+
+  /* Gallery thumbnail switching */
+  var mainImage = document.getElementById('mainProductImage');
+  document.querySelectorAll('.gallery-thumb').forEach(function (thumb) {
+    thumb.addEventListener('click', function () {
+      if (!mainImage) return;
+      document.querySelectorAll('.gallery-thumb').forEach(function (el) {
+        el.classList.remove('is-active');
+      });
+      thumb.classList.add('is-active');
+      mainImage.setAttribute('src', thumb.getAttribute('data-image'));
+      mainImage.setAttribute('alt', thumb.getAttribute('data-alt') || mainImage.getAttribute('alt'));
+    });
+  });
+
+  /* Size selector */
+  var sizeSelector = document.getElementById('sizeSelector');
+  var sizeError = document.getElementById('sizeError');
+  var selectedSize = null;
+
+  if (sizeSelector) {
+    sizeSelector.querySelectorAll('.size-swatch').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        sizeSelector.querySelectorAll('.size-swatch').forEach(function (el) {
+          el.classList.remove('is-selected');
+        });
+        btn.classList.add('is-selected');
+        selectedSize = btn.getAttribute('data-size');
+        sizeSelector.classList.remove('has-error');
+        if (sizeError) sizeError.hidden = true;
+      });
+    });
+  }
+
+  /* Quantity stepper */
+  var qtyInput = document.getElementById('productQty');
+  document.querySelectorAll('.qty-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!qtyInput) return;
+      var value = parseInt(qtyInput.value, 10) || 1;
+      var min = parseInt(qtyInput.getAttribute('min'), 10) || 1;
+      var max = parseInt(qtyInput.getAttribute('max'), 10) || 10;
+      if (btn.getAttribute('data-action') === 'increase' && value < max) value += 1;
+      if (btn.getAttribute('data-action') === 'decrease' && value > min) value -= 1;
+      qtyInput.value = String(value);
+    });
+  });
+
+  /* Add to Cart / Buy Now — require a size to be selected first.
+     Front-end demo only: wire this up to your real cart / checkout backend. */
+  function handleProductAction(button, isBuyNow) {
+    if (!button) return;
+    button.addEventListener('click', function () {
+      if (sizeSelector && !selectedSize) {
+        sizeSelector.classList.add('has-error');
+        if (sizeError) sizeError.hidden = false;
+        sizeSelector.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      var qty = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
+      var name = button.getAttribute('data-product') || 'Item';
+      var count = parseInt((cartCount && cartCount.textContent) || '0', 10);
+      count += qty;
+      if (cartCount) cartCount.textContent = String(count);
+      var sizeLabel = selectedSize ? ' (Size ' + selectedSize + ')' : '';
+      if (isBuyNow) {
+        showToast(name + sizeLabel + ' added — proceeding to checkout');
+      } else {
+        showToast(name + sizeLabel + ' added to your bag');
+      }
+    });
+  }
+
+  handleProductAction(document.getElementById('addToCartBtn'), false);
+  handleProductAction(document.getElementById('buyNowBtn'), true);
 })();
