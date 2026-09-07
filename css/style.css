@@ -265,39 +265,19 @@ section {
   gap: 24px;
 }
 
-/* Logo — text wordmark placeholder until final logo files are added.
-   See /assets/README.md for instructions on swapping this for an <img>. */
+/* Logo — brand image logo (assets/logo/logo.png), transparent background. */
 .logo {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   line-height: 1;
   flex-shrink: 0;
 }
 
-.logo img {
+.logo img,
+.logo-img {
   height: 44px;
   width: auto;
-}
-
-.logo-wordmark {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--navy);
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-}
-
-.logo-wordmark span {
-  color: var(--gold-dark);
-}
-
-.logo-tagline {
-  font-size: 0.6rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-top: 4px;
+  display: block;
 }
 
 .main-nav {
@@ -1123,12 +1103,21 @@ section {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.footer-brand .logo-wordmark {
-  color: var(--white);
+/* Footer sits on a navy background; the logo's navy wordmark needs a light
+   plate behind it to stay legible, without altering the supplied logo file. */
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  background: var(--white);
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 6px;
 }
 
-.footer-brand .logo-wordmark span {
-  color: var(--gold-light);
+.footer-logo .logo-img {
+  height: 38px;
+  width: auto;
+  display: block;
 }
 
 .footer-brand p {
@@ -1489,8 +1478,17 @@ section {
     padding: 14px 18px;
   }
 
-  .logo-wordmark {
-    font-size: 1.2rem;
+  .logo img,
+  .logo-img {
+    height: 34px;
+  }
+
+  .footer-logo {
+    padding: 10px 16px;
+  }
+
+  .footer-logo .logo-img {
+    height: 30px;
   }
 
   .hero-actions {
