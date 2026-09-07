@@ -8,11 +8,18 @@
 <link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-<header class="site-header" id="site-header"></header>
+<header class="site-header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo" aria-label="United New Style — Home">
+      <span class="logo-wordmark">United <span>New Style</span></span>
+      <span class="logo-tagline">Premium Garments</span>
+    </a>
+  </div>
+</header>
 
 <main>
   <section class="not-found">
@@ -20,17 +27,15 @@
     <h1>Page Not Found</h1>
     <p>The page you are looking for may have been moved or no longer exists.</p>
     <a href="index.html" class="btn btn-outline-navy">Back to Homepage</a>
-    <a href="shop.html" class="btn btn-gold" style="margin-top:14px;">Continue Shopping</a>
   </section>
 </main>
 
-<footer class="site-footer" id="site-footer"></footer>
+<footer class="site-footer">
+  <div class="container footer-bottom">
+    <p>&copy; <span id="current-year">2026</span> United New Style. All rights reserved.</p>
+  </div>
+</footer>
 
-<script type="module">
-  import { mountPartials } from './js/partials.js';
-  import { initUI } from './js/ui.js';
-  mountPartials({});
-  initUI();
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>

@@ -10,25 +10,13 @@ Premium online garment store — official website source.
 
 This is a static HTML/CSS/JavaScript website — no build step, no framework
 and no server-side dependencies required. It is ready to deploy directly to
-Hostinger (or any static host). The site includes a working front-end cart
-and wishlist (backed by the browser's `localStorage`), product filtering and
-sorting, and a quick-view modal — all client-side, ready for a real
-commerce backend to be connected later (see "Notes for future development"
-below).
+Hostinger (or any static host).
 
 ## Project structure
 
 ```
 united-new-style/
 ├── index.html                Homepage
-├── shop.html                 All Products (collection page)
-├── shop-tshirts.html         T-Shirts collection page
-├── shop-clothing.html        Clothing collection page
-├── shop-fashion.html         Fashion collection page
-├── product-crew-tee.html     Product detail page — Heritage Crew Tee
-├── product-oxford-shirt.html Product detail page — Heritage Oxford Shirt
-├── product-denim-jacket.html Product detail page — Premium Denim Jacket
-├── cart.html                 Shopping bag page
 ├── faq.html                  FAQ page
 ├── shipping-returns.html     Shipping & Returns policy
 ├── privacy-policy.html       Privacy Policy
@@ -37,20 +25,9 @@ united-new-style/
 ├── robots.txt                Search engine crawl rules
 ├── sitemap.xml                Sitemap for SEO
 ├── css/
-│   └── style.css             Full design system: layout, components, responsive rules
+│   └── style.css             Global stylesheet (design system, layout, responsive rules)
 ├── js/
-│   ├── partials.js           Shared header/footer/nav/drawers/quick-view — single source of truth for every page
-│   ├── ui.js                 Cross-page interactions (menus, drawers, quick view, search, accordions)
-│   ├── cart.js                Cart state (localStorage), used by every page
-│   ├── wishlist.js           Wishlist state (localStorage)
-│   ├── render.js              Shared product card / star rating rendering
-│   ├── data/
-│   │   └── products.js       Product catalog — single source of truth for all pricing/inventory data
-│   └── pages/
-│       ├── home.js            Homepage-specific rendering
-│       ├── collection.js      Collection page filtering/sorting
-│       ├── product.js         Product detail page logic
-│       └── cart.js            Cart page rendering
+│   └── main.js                Front-end interactions (mobile nav, forms, toasts, FAQ accordion)
 └── assets/                   Your logo & image files go here — see assets/README.md
     ├── logo/
     ├── hero/
@@ -65,21 +42,9 @@ united-new-style/
 No final logo or product photography has been invented for this project.
 The header currently shows a styled text wordmark ("United New Style") as a
 placeholder. **See [assets/README.md](assets/README.md)** for exact file
-names, recommended sizes, and the small code changes needed to swap in your
-real logo, hero image, category photos and product photography once
+names, recommended sizes, and the two-line code change needed to swap in
+your real logo, hero image, category photos and product photography once
 they're ready.
-
-## The product catalog
-
-All product data (names, prices, sale prices, sizes, ratings, descriptions)
-lives in **`js/data/products.js`** as a single array. Every page — the
-homepage's Best Sellers/New Arrivals, the collection pages, the cart, and
-the quick-view modal — reads from this one file, so there is only one place
-to update pricing or inventory. The 18 products currently in the catalog are
-placeholder data for the initial build; replace them with your real product
-information when ready (or later, swap the static array for a `fetch()`
-call to a real backend — every page already reads the data through the same
-small set of functions, so nothing else needs to change).
 
 ## Deploying to Hostinger
 
@@ -97,27 +62,20 @@ pure static site.
 
 ## Local preview
 
-The site uses native JavaScript modules (`<script type="module">`), which
-browsers block from loading over a plain `file://` path. **Serve the folder
-over local HTTP** rather than double-clicking `index.html`:
+Open `index.html` directly in a browser, or serve the folder locally, e.g.:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then visit `http://localhost:8000`. Any static server works the same way
-(e.g. `npx serve`, the VS Code "Live Server" extension). This restriction
-only applies to local preview — once uploaded to Hostinger (or any real web
-host), pages are served over `https://` and load normally.
+Then visit `http://localhost:8000`.
 
 ## Notes for future development
 
-- Newsletter and contact forms are front-end only (they show a confirmation
-  message but do not send data anywhere yet). Connect them to an email
-  service (e.g. Mailchimp, Klaviyo) or a form backend before launch.
-- The cart and wishlist are fully functional client-side (localStorage) —
-  add to bag, quantities, remove, and a demo promo code (`WELCOME10`) all
-  work. There is no payment gateway connected yet; the cart page says so
-  plainly rather than faking a checkout. Connect Stripe/PayPal/etc. and wire
-  it into `js/pages/cart.js`'s checkout button when ready.
-- Product photography is not yet added — see `assets/README.md`.
+- Newsletter and contact forms are currently front-end only (they show a
+  confirmation message but do not send data anywhere). Connect them to an
+  email service (e.g. Mailchimp, Klaviyo) or a form backend before launch.
+- "Add to Bag" buttons update a visual cart counter for demonstration but
+  are not yet connected to a real shopping cart or checkout system.
+- Sample product names/prices on the homepage are placeholder catalog data
+  — replace with your real product information.
